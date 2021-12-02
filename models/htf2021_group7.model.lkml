@@ -10,7 +10,23 @@ datagroup: htf2021_group7_default_datagroup {
 
 persist_with: htf2021_group7_default_datagroup
 
-
+explore: people {
+  join: appearance {
+    type: inner
+    sql_on:  ${appearance.id} = ${people.id};;
+    relationship: one_to_one
+  }
+  join: nationalities {
+    type: inner
+    sql_on:  ${nationalities.id} = ${people.id};;
+    relationship: one_to_many
+  }
+  join: physical_characteristics {
+    type: inner
+    sql_on:  ${physical_characteristics.id} = ${people.id};;
+    relationship: one_to_one
+  }
+}
 
 explore: ages {}
 
@@ -77,7 +93,6 @@ explore: events {
 
 explore: religions {}
 
-explore: people {}
 
 explore: ride_info {
   join: ride_passengers {
