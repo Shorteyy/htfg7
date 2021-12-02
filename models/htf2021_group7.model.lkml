@@ -28,7 +28,18 @@ explore: company_employees {}
 
 explore: bnbreservations {}
 
-explore: bnbcheckins {}
+explore: bnbcheckins {
+  join: people {
+    type: inner
+    sql_on:  ${people.id} = ${bnbcheckins.person_id2};;
+    relationship: many_to_one
+  }
+  join: aib_bnbs_nyc {
+    type: inner
+    sql_on:  ${aib_bnbs_nyc.id} = ${bnbcheckins.bnb_id1};;
+    relationship: many_to_one
+  }
+}
 
 explore: aib_bnbs_nyc {}
 
@@ -68,7 +79,13 @@ explore: religions {}
 
 explore: people {}
 
-explore: ride_info {}
+explore: ride_info {
+  join: ride_passengers {
+    type: inner
+    sql_on: ${ride_passengers.ride_id} = ${ride_info.ride_id} ;;
+    relationship: one_to_one
+  }
+}
 
 explore: ride_passengers {}
 
