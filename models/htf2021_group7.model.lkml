@@ -46,7 +46,16 @@ explore: events {}
 
 explore: religions {}
 
-explore: people {}
+explore: people {
+  join: ride_passengers {
+    type:  left_outer
+    sql_on: ${people.id} = ${ride_passengers.passenger_id} ;;
+    relationship:  one_to_many
+  }
+  conditionally_filter: {
+    filters: [ride_passengers.ride_id: "9"]
+  }
+}
 
 explore: ride_info {}
 
