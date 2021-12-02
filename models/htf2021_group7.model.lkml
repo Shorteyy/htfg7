@@ -10,6 +10,8 @@ datagroup: htf2021_group7_default_datagroup {
 
 persist_with: htf2021_group7_default_datagroup
 
+
+
 explore: ages {}
 
 explore: companies {}
@@ -34,15 +36,33 @@ explore: appearance {}
 
 explore: gender {}
 
-explore: financial_status {}
+explore: financial_status {
+  join: people {
+    type: inner
+    sql_on:  ${people.id} = ${financial_status.id};;
+    relationship: many_to_one
+  }
+}
 
 explore: nationalities {}
 
 explore: physical_characteristics {}
 
-explore: locations {}
+explore: locations {
+  join: events {
+    type: inner
+    sql_on: ${events.id} = ${locations.id} ;;
+    relationship: many_to_one
+  }
+}
 
-explore: events {}
+explore: events {
+  join: locations {
+    type: inner
+    sql_on: ${locations.id} = ${events.id} ;;
+    relationship: many_to_one
+  }
+}
 
 explore: religions {}
 
@@ -59,27 +79,37 @@ explore: taxi_rides {
     relationship: many_to_one
   }
   join: ride_passengers {
-    type: inner
+    type: left_outer
     sql_on:  ${ride_passengers.ride_id} = ${taxis.id};;
     relationship: many_to_one
 
   }
   join: ride_info {
-    type: inner
+    type: left_outer
     sql_on:  ${ride_info.ride_id} = ${taxis.id};;
     relationship: many_to_one
 
   }
   join: people {
-    type: inner
+    type: left_outer
     sql_on:  ${people.id} = ${ride_passengers.passenger_id};;
     relationship: many_to_one
   }
+
+  join: events {
+    type: left_outer
+    sql_on:  ${events.id} = ${ride_info.dropoff_location};;
+    relationship: many_to_one
+
+  }
+
+
   conditionally_filter: {
     filters: [ride_passengers.passenger_id: "51",ride_info.ride_id: "9",ride_info.ride_id: "21"]
   }
-
 }
+
+
 
 explore: roles {}
 
