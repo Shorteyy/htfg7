@@ -74,30 +74,30 @@ explore: ride_passengers {}
 
 explore: taxi_rides {
   join: taxis {
-    type: left_outer
+    type: inner
     sql_on: ${taxi_rides.taxi_id} = ${taxis.id} ;;
     relationship: many_to_one
   }
   join: ride_passengers {
-    type: left_outer
+    type: inner
     sql_on:  ${ride_passengers.ride_id} = ${taxis.id};;
     relationship: many_to_one
 
   }
   join: ride_info {
-    type: left_outer
+    type: inner
     sql_on:  ${ride_info.ride_id} = ${taxis.id};;
     relationship: many_to_one
 
   }
   join: people {
-    type: left_outer
+    type: inner
     sql_on:  ${people.id} = ${ride_passengers.passenger_id};;
     relationship: many_to_one
   }
 
   join: events {
-    type: left_outer
+    type: inner
     sql_on:  ${events.id} = ${ride_info.dropoff_location};;
     relationship: many_to_one
 
