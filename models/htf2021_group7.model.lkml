@@ -102,11 +102,6 @@ explore: taxi_rides {
     relationship: many_to_one
 
   }
-
-
-  conditionally_filter: {
-    filters: [ride_passengers.passenger_id: "51",ride_info.ride_id: "9",ride_info.ride_id: "21"]
-  }
 }
 
 
