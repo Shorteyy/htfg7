@@ -58,6 +58,27 @@ explore: taxi_rides {
     sql_on: ${taxi_rides.taxi_id} = ${taxis.id} ;;
     relationship: many_to_one
   }
+  join: ride_passengers {
+    type: inner
+    sql_on:  ${ride_passengers.ride_id} = ${taxis.id};;
+    relationship: many_to_one
+
+  }
+  join: ride_info {
+    type: inner
+    sql_on:  ${ride_info.ride_id} = ${taxis.id};;
+    relationship: many_to_one
+
+  }
+  join: people {
+    type: inner
+    sql_on:  ${people.id} = ${ride_passengers.passenger_id};;
+    relationship: many_to_one
+  }
+  conditionally_filter: {
+    filters: [ride_passengers.passenger_id: "51",ride_info.ride_id: "9",ride_info.ride_id: "21"]
+  }
+
 }
 
 explore: roles {}
