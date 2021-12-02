@@ -19,4 +19,9 @@ view: taxi_rides {
     type: count
     drill_fields: [id, taxis.id]
   }
+
+  measure: count_distinct_rides {
+    type: count_distinct
+    sql: ${people.id} ;;
+  }
 }

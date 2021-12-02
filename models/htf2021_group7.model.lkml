@@ -10,6 +10,8 @@ datagroup: htf2021_group7_default_datagroup {
 
 persist_with: htf2021_group7_default_datagroup
 
+
+
 explore: ages {}
 
 explore: companies {}
@@ -26,7 +28,18 @@ explore: company_employees {}
 
 explore: bnbreservations {}
 
-explore: bnbcheckins {}
+explore: bnbcheckins {
+  join: people {
+    type: inner
+    sql_on:  ${people.id} = ${bnbcheckins.person_id2};;
+    relationship: many_to_one
+  }
+  join: aib_bnbs_nyc {
+    type: inner
+    sql_on:  ${aib_bnbs_nyc.id} = ${bnbcheckins.bnb_id1};;
+    relationship: many_to_one
+  }
+}
 
 explore: aib_bnbs_nyc {}
 
@@ -34,15 +47,33 @@ explore: appearance {}
 
 explore: gender {}
 
-explore: financial_status {}
+explore: financial_status {
+  join: people {
+    type: inner
+    sql_on:  ${people.id} = ${financial_status.id};;
+    relationship: many_to_one
+  }
+}
 
 explore: nationalities {}
 
 explore: physical_characteristics {}
 
-explore: locations {}
+explore: locations {
+  join: events {
+    type: inner
+    sql_on: ${events.id} = ${locations.id} ;;
+    relationship: many_to_one
+  }
+}
 
-explore: events {}
+explore: events {
+  join: locations {
+    type: inner
+    sql_on: ${locations.id} = ${events.id} ;;
+    relationship: many_to_one
+  }
+}
 
 explore: religions {}
 
@@ -57,17 +88,49 @@ explore: people {
   }
 }
 
-explore: ride_info {}
+explore: ride_info {
+  join: ride_passengers {
+    type: inner
+    sql_on: ${ride_passengers.ride_id} = ${ride_info.ride_id} ;;
+    relationship: one_to_one
+  }
+}
 
 explore: ride_passengers {}
 
 explore: taxi_rides {
   join: taxis {
-    type: left_outer
+    type: inner
     sql_on: ${taxi_rides.taxi_id} = ${taxis.id} ;;
     relationship: many_to_one
   }
+  join: ride_passengers {
+    type: inner
+    sql_on:  ${ride_passengers.ride_id} = ${taxis.id};;
+    relationship: many_to_one
+
+  }
+  join: ride_info {
+    type: inner
+    sql_on:  ${ride_info.ride_id} = ${taxis.id};;
+    relationship: many_to_one
+
+  }
+  join: people {
+    type: inner
+    sql_on:  ${people.id} = ${ride_passengers.passenger_id};;
+    relationship: many_to_one
+  }
+
+  join: events {
+    type: inner
+    sql_on:  ${events.id} = ${ride_info.dropoff_location};;
+    relationship: many_to_one
+
+  }
 }
+
+
 
 explore: roles {}
 
